@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashSet;
 import java.util.Optional;
 
 @Service
@@ -45,11 +46,12 @@ public class StarShipsService {
                     hyperdriveRating(starShipNode.findValue("hyperdrive_rating").textValue()).
                     mglt(starShipNode.findValue("MGLT").textValue()).
                     starshipClass(starShipNode.findValue("starship_class").textValue()).
+                    setHeroes(new LinkedHashSet<>()).
                     build();
 
             starShipOptional = Optional.of(starShip);
             StringBuilder sb = new StringBuilder().
-                    append("Convert StarShip Id ").
+                    append("Converted StarShip Id ").
                     append(urlStarShip).
                     append(" with JSON to Object.");
             logger.info(sb.toString());

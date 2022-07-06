@@ -1,9 +1,7 @@
 package com.qbaaa.StarWars.serwices;
 
 import com.qbaaa.StarWars.models.HousesWorld;
-import com.qbaaa.StarWars.models.StarShips;
 import com.qbaaa.StarWars.services.HousesWorldService;
-import com.qbaaa.StarWars.services.StarShipsService;
 import com.qbaaa.StarWars.services.StarWarsApiService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

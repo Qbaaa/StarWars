@@ -40,7 +40,7 @@ public class HeroesService {
 
             JsonNode starShipsNode = heroNode.path("starships");
             Iterator<JsonNode> iteratorStarShips = starShipsNode.elements();
-            List<StarShips> listStarShips = new LinkedList<>();
+            Set<StarShips> setStarShips = new LinkedHashSet<>();
 
             while (iteratorStarShips.hasNext()) {
                 JsonNode starShipNode = iteratorStarShips.next();
@@ -52,7 +52,7 @@ public class HeroesService {
                         id( Integer.parseInt(urlStarShip.toString())).
                         build();
 
-                listStarShips.add( starShip );
+                setStarShips.add(starShip);
             }
 
             Heroes hero = Heroes.builder().
@@ -66,12 +66,12 @@ public class HeroesService {
                     birthYear(heroNode.findValue("birth_year").textValue()).
                     gender(heroNode.findValue("gender").textValue()).
                     homeWorld(homeWorld).
-                    listStarShips(listStarShips).
+                    setStarShips(setStarShips).
                     build();
 
             heroOptional = Optional.of(hero);
             StringBuilder sb = new StringBuilder().
-                    append("Convert Hero Id ").
+                    append("Converted Hero Id ").
                     append(urlPeopleBuilder).
                     append(" with JSON to Object.");
             logger.info(sb.toString());

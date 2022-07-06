@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.io.IOException;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -72,6 +70,7 @@ class StarWarsApiServiceTests {
                 hyperdriveRating("1.0").
                 mglt("100").
                 starshipClass("Starfighter").
+                setHeroes(new LinkedHashSet<>()).
                 build();
 
         Optional<StarShips> object = starWarsApiService.getStarShip(12);
@@ -127,7 +126,7 @@ class StarWarsApiServiceTests {
         Optional<HousesWorld> homeWorldId1 = starWarsApiService.getHomeWorld(1);
         Optional<StarShips> starShipId12 = starWarsApiService.getStarShip(12);
         Optional<StarShips> starShipId22 = starWarsApiService.getStarShip(22);
-        List<StarShips> starShips = new ArrayList<>();
+        Set<StarShips> starShips = new LinkedHashSet<>();
         starShips.add(starShipId12.get());
         starShips.add(starShipId22.get());
 
@@ -142,7 +141,7 @@ class StarWarsApiServiceTests {
                 birthYear("19BBY").
                 gender("male").
                 homeWorld(homeWorldId1.get()).
-                listStarShips(starShips).
+                setStarShips(starShips).
                 build();
 
         assertTrue(hero.equals(heroes.get(0)));

@@ -2,13 +2,21 @@ package com.qbaaa.StarWars.models;
 
 import lombok.*;
 
+import javax.persistence.*;
+import java.util.Set;
+
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 @EqualsAndHashCode
 @ToString
+@Entity
+@Table(name = "STAR_SHIPS")
 public class StarShips {
 
+    @Id
     private int id;
     private String name;
     private String model;
@@ -23,4 +31,8 @@ public class StarShips {
     private String hyperdriveRating;
     private String mglt;
     private String starshipClass;
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @ManyToMany(mappedBy = "setStarShips", fetch = FetchType.LAZY)
+    private Set<Heroes> setHeroes;
 }

@@ -67,17 +67,24 @@ public class StarWarsApiService {
                         if (heroOptional.isPresent()) {
                             Optional<HousesWorld> homeWorldOptional = getHomeWorld(heroOptional.get().getHomeWorld().getId());
 
-                            if (homeWorldOptional.isPresent())
+                            if (homeWorldOptional.isPresent()) {
+                                homeWorldOptional.get().getSetHero().add(heroOptional.get());
                                 heroOptional.get().setHomeWorld(homeWorldOptional.get());
-
-                            List<StarShips> listStarShip = new LinkedList<>();
-                            for (int i = 0; i < heroOptional.get().getListStarShips().size() ; i++) {
-                                Optional<StarShips> starShipOptional = getStarShip(heroOptional.get().getListStarShips().get(i).getId());
-
-                                if (starShipOptional.isPresent())
-                                    listStarShip.add(starShipOptional.get());
                             }
-                            heroOptional.get().setListStarShips(listStarShip);
+
+                            Set<StarShips> setStarShip = new LinkedHashSet<>();
+                            Iterator<StarShips> iteratorSS = heroOptional.get().getSetStarShips().iterator();
+
+                            while (iteratorSS.hasNext()) {
+                                Optional<StarShips> starShipOptional = getStarShip(iteratorSS.next().getId());
+
+                                if (starShipOptional.isPresent()) {
+                                    starShipOptional.get().getSetHeroes().add(heroOptional.get());
+                                    setStarShip.add(starShipOptional.get());
+                                }
+                            }
+
+                            heroOptional.get().setSetStarShips(setStarShip);
                             listHeroes.add(heroOptional.get());
                         }
                     }

@@ -12,9 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -50,7 +48,7 @@ public class HeroesServiceTests {
                 id(22).
                 build();
 
-        List<StarShips> starShips = new ArrayList<>();
+        Set<StarShips> starShips = new LinkedHashSet<>();
         starShips.add(starShipId12);
         starShips.add(starShipId22);
 
@@ -65,7 +63,7 @@ public class HeroesServiceTests {
                 birthYear("19BBY").
                 gender("male").
                 homeWorld(homeWorldId1).
-                listStarShips(starShips).
+                setStarShips(starShips).
                 build();
 
         Optional<Heroes> heroeWithJson = heroesService.convertJsonToObject(responseJson.body());

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashSet;
 import java.util.Optional;
 
 @Service
@@ -41,11 +42,12 @@ public class HousesWorldService {
                     terrain(homeWorldNode.findValue("terrain").textValue()).
                     surfaceWater(homeWorldNode.findValue("surface_water").textValue()).
                     population(homeWorldNode.findValue("population").textValue()).
+                    setHero(new LinkedHashSet<>()).
                     build();
 
             homeWorldOptional = Optional.of(homeWorld);
             StringBuilder sb = new StringBuilder().
-                    append("Convert HomeWorld Id ").
+                    append("Converted HomeWorld Id ").
                     append(urlHomeWorld).
                     append(" with JSON to Object.");
             logger.info(sb.toString());
