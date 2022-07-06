@@ -25,8 +25,8 @@ public class AppStartupRunner implements CommandLineRunner {
         }
 
         @Override
-        public void run(String... args)
-        {
+        public void run(String... args) {
+
             List<Heroes> listHeroes = starWarsApiService.getAllHeroes();
 
             if (!listHeroes.isEmpty()) {

@@ -83,4 +83,16 @@ public class HeroesService {
 
         return heroOptional;
     }
+
+    public String convertObjectToJson(Heroes hero) {
+
+        try {
+            return mapper.writeValueAsString(hero);
+        }
+        catch (JsonProcessingException e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
+        return "";
+    }
 }

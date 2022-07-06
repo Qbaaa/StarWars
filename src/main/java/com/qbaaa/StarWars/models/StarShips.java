@@ -1,5 +1,6 @@
 package com.qbaaa.StarWars.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import java.util.Set;
 @Table(name = "STAR_SHIPS")
 public class StarShips {
 
+    @JsonIgnore
     @Id
     private int id;
     private String name;
@@ -31,6 +33,7 @@ public class StarShips {
     private String hyperdriveRating;
     private String mglt;
     private String starshipClass;
+    @JsonIgnore
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @ManyToMany(mappedBy = "setStarShips", fetch = FetchType.LAZY)

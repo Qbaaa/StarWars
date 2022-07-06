@@ -1,10 +1,12 @@
 package com.qbaaa.StarWars.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
-
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,6 +18,7 @@ import java.util.Set;
 @Table(name = "HOUSES_WORLD")
 public class HousesWorld {
 
+    @JsonIgnore
     @Id
     private int id;
     private String name;
@@ -27,6 +30,7 @@ public class HousesWorld {
     private String terrain;
     private String surfaceWater;
     private String population;
+    @JsonIgnore
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @OneToMany(mappedBy = "homeWorld", fetch = FetchType.LAZY)

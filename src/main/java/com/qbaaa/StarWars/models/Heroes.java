@@ -1,5 +1,6 @@
 package com.qbaaa.StarWars.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class Heroes {
     private String eyeColor;
     private String birthYear;
     private String gender;
+    @JsonProperty("homeworld")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "HEROES_HOUSES_WORLD",
@@ -33,6 +35,7 @@ public class Heroes {
             inverseJoinColumns = @JoinColumn(name = "home_world_id")
     )
     private HousesWorld homeWorld;
+    @JsonProperty("starships")
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "HEROES_STAR_SHIPS",
