@@ -49,4 +49,19 @@ class HeroesControllerTests {
         assertTrue(content.contains("\"starships\":[{\"name\":\"X-wing\""));
         assertTrue(content.contains("{\"name\":\"Imperial shuttle\",\"model\":\"Lambda-class T-4a shuttle\""));
     }
+
+    @Test
+    @DisplayName("return Json paged list of heroes when getPageHeroes method")
+    void shouldReturnJsonPagedListOfHeroesWhenGetPageHeroesMethod() throws Exception {
+        int page = 1;
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/characters?page=" + page)
+                .contentType(MediaType.APPLICATION_JSON)).andReturn();
+
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(200, status);
+
+        String content = mvcResult.getResponse().getContentAsString();
+        assertTrue(content.contains("{\"count\":82,\"pages\":9,\"elements\":[{\"id\":1"));
+    }
 }
