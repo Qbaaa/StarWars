@@ -71,8 +71,6 @@ public class HeroesServiceTests {
             fail("Return heroes should not be Null");
         }
         else {
-            System.out.println(hero);
-            System.out.println(heroeWithJson.get());
             assertTrue(hero.equals(heroeWithJson.get()));
         }
     }
