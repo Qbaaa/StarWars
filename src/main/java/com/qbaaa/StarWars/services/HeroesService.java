@@ -5,9 +5,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.qbaaa.StarWars.models.Heroes;
 import com.qbaaa.StarWars.models.HousesWorld;
 import com.qbaaa.StarWars.models.StarShips;
+import com.qbaaa.StarWars.repositories.HeroesRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -15,10 +24,39 @@ import java.util.*;
 @Service
 public class HeroesService {
     private static final Logger logger = LoggerFactory.getLogger(HeroesService.class);
-    private ObjectMapper mapper;
 
-    public HeroesService() {
+    private final HeroesRepository heroesRepository;
+
+    private final ObjectMapper mapper;
+
+    @Autowired
+    public HeroesService(HeroesRepository heroesRepository) {
+        this.heroesRepository = heroesRepository;
         mapper = new ObjectMapper();
+    }
+
+    @Cacheable("pageHeroes")
+    public Page<Heroes> getPageHeroes(Integer page) {
+
+        return heroesRepository.findAll(PageRequest.of(page - 1, 10, Sort.by("id")));
+    }
+    @Cacheable("singleHero")
+    public Optional<Heroes> getHero(int id) {
+
+        return heroesRepository.findById(id);
+    }
+
+    @Caching(put = {@CachePut(value = "singleHero", key = "#id")},
+            evict = {@CacheEvict(value = "pageHeroes", allEntries = true)})
+    public Optional<Heroes> updateHero(int id, String name) {
+        Optional<Heroes> updateHero = heroesRepository.findById(id);
+
+        if (updateHero.isPresent()) {
+            updateHero.get().setName(name);
+            return Optional.of(heroesRepository.save(updateHero.get()));
+        }
+
+        return Optional.empty();
     }
 
     public Optional<Heroes> convertJsonToObject(String jsonString) {
